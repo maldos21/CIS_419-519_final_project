@@ -15,6 +15,8 @@ class ConstructTrainingSet():
     def __init__(self, training_paths) :
         random.shuffle(training_paths)
                        
+        self.testing_csvs = training_paths[:len(training_paths)//5]
+        del training_paths[:len(training_paths)//5]
         self.training_csvs = training_paths[:len(training_paths)//2]
         self.validation_csvs = training_paths[len(training_paths)//2:]
 
@@ -23,6 +25,8 @@ class ConstructTrainingSet():
             os.remove("trainingCSV.csv")
         if os.path.exists("validationCSV.csv") :
             os.remove("validationCSV.csv")
+        if os.path.exists("testingCSV.csv") :
+            os.remove("testingCSV.csv")
             
         ## directory for saving components 
         dir_createsave = "\data"
@@ -31,9 +35,11 @@ class ConstructTrainingSet():
             shutil.rmtree(dir_save)
             os.makedirs(dir_save + "\\val")
             os.makedirs(dir_save + "\\train")
+            os.makedirs(dir_save + "\\test")
         else:
             os.makedirs(dir_save + "\\train")
             os.makedirs(dir_save + "\\val")
+            os.makedirs(dir_save + "\\test")
         
     def extractCSV(self) :
         for csv in self.training_csvs :
@@ -50,3 +56,10 @@ class ConstructTrainingSet():
             csvs = [ss for ss in os.listdir(dir_csvs) if not ss.startswith(".")]
             for csv in csvs:
                 extractComponents(csv, dir_csvs, "val", savecomp=True, check=True)
+        for csv in self.testing_csvs :
+            ## sample image directory
+            dir_csvs = os.path.join(home, "PCB_samples", csv, "DSLR", "annotation")
+            ## read csvs
+            csvs = [ss for ss in os.listdir(dir_csvs) if not ss.startswith(".")]
+            for csv in csvs:
+                extractComponents(csv, dir_csvs, "test", savecomp=True, check=True)

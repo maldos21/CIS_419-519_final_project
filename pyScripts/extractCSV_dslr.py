@@ -31,9 +31,12 @@ def extractComponents(csv, dir_csvs, set, savecomp=True, check=False):
     if set == "val":
         csv_file = "validationCSV.csv"
         dir_createsave = "\data\\val"
-    else:
+    elif set == "train" :
         csv_file = "trainingCSV.csv"
         dir_createsave = "\data\\train"
+    else :
+        csv_file = "testingCSV.csv"
+        dir_createsave = "\data\\test"
         
     f = open(csv_file, "a")
     ## get sample name "s*"
@@ -107,7 +110,7 @@ def extractComponents(csv, dir_csvs, set, savecomp=True, check=False):
                 filename =  comp_type + "_" + str(idx+2) + ".png"
                 savename = savedir + "\\" + filename
                 label = LABEL_NAMES[comp_type]
-                csv_write = comp_type + "\\"  + filename  + ", " + str(label) + "\n"
+                csv_write = comp_type + "\\"  + filename  + ", " + str(label) + ", " + sample.split("_")[0] + "\n"
                 f.write(csv_write)
                 
                 cv2.imwrite(savename, img_comp)

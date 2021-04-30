@@ -88,9 +88,10 @@ def train(model_name="InceptionV3") :
 # extract_data(['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11'])
 
 # Train the provided model on the current data
-train("resnet34") 
+# train("resnet34") 
 
 # Loading Model and Visualizing Prediction
 # Based on HW#4 Utils Functions
-# model = load_model("vgg16.pth")
-# visualize_predictions(model)
+model = load_model("vgg16.pth")
+log_error_model(model)
+visualize_predictions(model)
